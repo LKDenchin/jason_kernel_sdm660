@@ -125,21 +125,10 @@ int vfs_stat(const char __user *name, struct kstat *stat)
 }
 EXPORT_SYMBOL(vfs_stat);
 
-// KernelSU hook
-#ifdef CONFIG_KSU
-extern int ksu_handle_stat(int *dfd, const char __user **filename_user, int *flags);
-#endif
-
-
 int vfs_lstat(const char __user *name, struct kstat *stat)
 {
 	return vfs_fstatat(AT_FDCWD, name, stat, AT_SYMLINK_NOFOLLOW);
 }
-
-#ifdef CONFIG_KSU
-	ksu_handle_stat(&dfd, &filename, &flags);
-#endif
-
 EXPORT_SYMBOL(vfs_lstat);
 
 
